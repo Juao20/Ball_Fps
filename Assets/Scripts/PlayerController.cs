@@ -5,6 +5,8 @@ using Mirror;
 public class PlayerController : MonoBehaviour, InputSystem_Actions.IPlayerActions
 {
     [SerializeField] private PlayerMotor motor;
+    [SerializeField] private PlayerShoot shooter;
+    [SerializeField] private PlayerAim aim;
     [SerializeField] private Transform playerCamera;
 
     private InputSystem_Actions inputActions;
@@ -115,9 +117,23 @@ public class PlayerController : MonoBehaviour, InputSystem_Actions.IPlayerAction
     }
 
     // Unused player callbacks (required by interface)
-    public void OnFire(InputAction.CallbackContext context) { }
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        if (shooter == null) return;
+
+        if (context.performed)
+            shooter.Shoot();
+    }
     public void OnInteract(InputAction.CallbackContext context) { }
-    public void OnCrouch(InputAction.CallbackContext context) { }
+    public void OnCrouch(InputAction.CallbackContext context)
+    {
+        if (motor == null) return;
+
+        if (context.performed)
+            motor.SetCrouchHeld(true);
+        else if (context.canceled)
+            motor.SetCrouchHeld(false);
+    }
     public void OnToogleCursor(InputAction.CallbackContext context)
     {
         if (!context.performed)
@@ -127,6 +143,21 @@ public class PlayerController : MonoBehaviour, InputSystem_Actions.IPlayerAction
     }
     public void OnPrevious(InputAction.CallbackContext context) { }
     public void OnNext(InputAction.CallbackContext context) { }
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        if (aim == null || motor == null) return;
+
+        if (context.performed)
+        {
+            aim.SetAiming(true);
+            motor.SetAiming(true);
+        }
+        else if (context.canceled)
+        {
+            aim.SetAiming(false);
+            motor.SetAiming(false);
+        }
+    }
     public void OnSprint(InputAction.CallbackContext context)
     {
         if (motor == null) return;

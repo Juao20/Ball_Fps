@@ -54,13 +54,16 @@ public class PlayerSetup : NetworkBehaviour
 
     private Camera FindSceneCamera()
     {
+        // Never pick one of this player's own cameras (Camera/WeamponCam) as "the scene
+        // camera to disable" - that would blind the local player instead of hiding the
+        // fallback scene view.
         Camera mainCamera = Camera.main;
-        if (mainCamera != null)
+        if (mainCamera != null && !mainCamera.transform.IsChildOf(transform))
             return mainCamera;
 
         foreach (Camera camera in Camera.allCameras)
         {
-            if (camera != null && camera.enabled)
+            if (camera != null && camera.enabled && !camera.transform.IsChildOf(transform))
             {
                 return camera;
             }

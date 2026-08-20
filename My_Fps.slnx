@@ -9,9 +9,9 @@
   <Project Path="SimpleWebTransport.csproj" />
   <Project Path="Mirror.Authenticators.csproj" />
   <Project Path="Mirror.Transports.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="EncryptionTransportEditor.csproj" />
   <Project Path="Telepathy.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Mirror.CompilerSymbols.csproj" />
 </Solution>
